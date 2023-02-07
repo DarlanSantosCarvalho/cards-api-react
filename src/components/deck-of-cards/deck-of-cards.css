@@ -1,0 +1,14 @@
+.lista{
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.cartas img{
+    display: flex;
+    justify-content: space-between;
+    width: 100px;
+    height: 100px;
+    padding: 8px;
+}
