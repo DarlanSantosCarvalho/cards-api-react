@@ -1,4 +1,4 @@
-import {Component} from "react";
+import {useEffect, useState} from "react";
 import "./deck-of-cards.css"
 
 async function createDeck(){
@@ -12,41 +12,38 @@ async function getCards(deckId){
     return await response.json()
 }
 
-class DeckOfCards extends Component {
-    constructor(){
-        super()
-        this.state = {
-            cards:[
-            ]
-        }
-    }
+const DeckOfCards = () => {
+    const [deck, setDeck] = useState({
+        cards: []
+    })
 
-    async componentDidMount(){
+    useEffect(() => {
+        const fetchData = async() =>{
         const deckId = await createDeck()
-        const cards = await getCards(deckId)
+        const data = await getCards(deckId)
 
-        this.setState({
-            cards:cards.cards
+        setDeck ({
+            cards: data.cards
         })
     }
+    fetchData()
+    }, [])
 
-    render(){
-        return(
-            <section>
-                <ul className="lista">
-                    {
-                        this.state.cards.map((card, index) => {
-                            return(
-                                <li className="cartas" key={index}>
-                                    <img src={card.image} alt={card.value} />
-                                </li>
-                            )
-                        })
-                    }
-                </ul>
-            </section>
-        )
-    }
+    return(
+        <section>
+            <ul className="lista">
+                {
+                    deck.cards.map((card, index) => {
+                    return(
+                            <li className="cartas" key={index}>
+                                 <img src={card.image} alt={card.value} />
+                            </li>
+                        )
+                    })
+                }
+            </ul>
+        </section>
+    )
 }
 
 export default DeckOfCards
